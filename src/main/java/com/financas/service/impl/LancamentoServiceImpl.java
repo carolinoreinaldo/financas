@@ -3,6 +3,7 @@ package com.financas.service.impl;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,34 +74,57 @@ public class LancamentoServiceImpl implements LancamentoService {
 	}
 
 	@Override
+	public Optional<Lancamento> obterPorId(Long id) {
+		return this.lancamentoRepository.findById(id);
+	}
+
+	@Override
 	public void validar(Lancamento lancamento) {
 		if (Strings.isBlank(lancamento.getDescricao())) {
 			throw new RegraNegocioException("Informe uma descrição válida.");
 		}
 
 		final Integer mes = lancamento.getMes();
-		if (Objects.nonNull(mes) && mes < 1 || mes > 12) {
+		if (Objects.isNull(mes) || mes < 1 || mes > 12) {
 			throw new RegraNegocioException("Informe um Mês válido.");
 		}
 
 		final Integer ano = lancamento.getAno();
-		if (Objects.nonNull(ano) && ano.toString().length() != 4) {
+		if (Objects.isNull(ano) || ano.toString().length() != 4) {
 			throw new RegraNegocioException("Informe um Ano válido.");
 		}
 
 		final Usuario usuario = lancamento.getUsuario();
-		if (Objects.nonNull(usuario) && Objects.nonNull(usuario.getId())) {
-			throw new RegraNegocioException("Informe um Usuário.");
+		if (Objects.isNull(usuario) || Objects.isNull(usuario.getId())) {
+			throw new RegraNegocioException("Usuário inválido, Informe um usuário válido.");
 		}
 
 		final BigDecimal valor = lancamento.getValor();
-		if (Objects.nonNull(valor) && valor.compareTo(BigDecimal.ZERO) < 1) {
+		if (Objects.isNull(valor) || valor.compareTo(BigDecimal.ZERO) < 1) {
 			throw new RegraNegocioException("Informe um valor válido.");
 		}
 		
 		final TipoLancamento tipo = lancamento.getTipo();
-		if(Objects.nonNull(tipo)) {
-			throw new RegraNegocioException("Informe o tipo de lançamento.");
+		if(Objects.isNull(tipo)) {
+			throw new RegraNegocioException("Informe um tipo de lançamento válido.");
 		}
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public BigDecimal obterSaldoPorUsuario(Long idUsuario) {
+		BigDecimal totalReceitas = lancamentoRepository.obterSaldoPorTipoLancamentoEUsuario(idUsuario, TipoLancamento.RECEITA);
+		BigDecimal totalDespesas = lancamentoRepository.obterSaldoPorTipoLancamentoEUsuario(idUsuario, TipoLancamento.DESPESA);
+		
+		if(Objects.isNull(totalReceitas)) {
+			totalReceitas = BigDecimal.ZERO;
+		}
+		
+		if(Objects.isNull(totalDespesas)) {
+			totalDespesas = BigDecimal.ZERO;
+		}
+		
+		return totalReceitas.subtract(totalDespesas);
+	}
+
 }

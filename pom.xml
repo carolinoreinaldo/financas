@@ -41,6 +41,12 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Essa dependência faz com que dê pra trabalhar com live-reload, hot-deploy. 
+			Assim não vamos ficar precisando resetar o servidor a cada modificação -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -52,7 +58,7 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
