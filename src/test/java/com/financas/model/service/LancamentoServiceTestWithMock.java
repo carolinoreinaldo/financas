@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.util.Strings;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -181,7 +182,7 @@ public class LancamentoServiceTestWithMock extends BaseTeste {
 	@Test
 	public void deveValidarSeDescricaoEmBranco() {
 		Lancamento lancamento = LancamentoRepositoryTest.criarLancamentoComDefaultID();
-		lancamento.setDescricao("");
+		lancamento.setDescricao(Strings.EMPTY);
 		final String msgErroEsperada = "Informe uma descrição válida.";
 		testePadraoDeValidacaoAoSalvar(msgErroEsperada, lancamento);
 	}
