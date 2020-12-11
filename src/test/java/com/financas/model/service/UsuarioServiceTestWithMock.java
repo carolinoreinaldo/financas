@@ -9,6 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import com.financas.BaseTeste;
+import com.financas.builders.UsuarioBuilder;
 import com.financas.exceptions.ErroAutenticacaoException;
 import com.financas.exceptions.RegraNegocioException;
 import com.financas.model.entity.Usuario;
@@ -37,7 +38,7 @@ public class UsuarioServiceTestWithMock extends BaseTeste {
 	public void deveAutenticarUsuarioComSucesso() {
 		final String email = "teste@teste.com";
 		final String senha = "teste";
-		final Usuario usuario = Usuario.builder().email(email).senha(senha).id(1L).build();
+		final Usuario usuario = UsuarioBuilder.builder().email(email).senha(senha).id(1L).build();
 
 		Mockito.when(usuarioRepository.findByEmail(email)).thenReturn(Optional.of(usuario));
 
@@ -65,7 +66,7 @@ public class UsuarioServiceTestWithMock extends BaseTeste {
 		final String senha = "teste";
 		final String senhaErrada = "senhaErrada";
 
-		final Usuario usuario = Usuario.builder().email(email).senha(senha).id(1L).build();
+		final Usuario usuario = UsuarioBuilder.builder().email(email).senha(senha).id(1L).build();
 
 		Mockito.when(usuarioRepository.findByEmail(email)).thenReturn(Optional.of(usuario));
 
@@ -107,7 +108,7 @@ public class UsuarioServiceTestWithMock extends BaseTeste {
 		final String email = "teste@teste.com";
 		final String senha = "teste";
 
-		final Usuario usuario = Usuario.builder().email(email).senha(senha).build();
+		final Usuario usuario = UsuarioBuilder.builder().email(email).senha(senha).build();
 
 		Mockito.when(usuarioRepository.save(Mockito.any(Usuario.class))).thenReturn(usuario);
 
@@ -124,7 +125,7 @@ public class UsuarioServiceTestWithMock extends BaseTeste {
 
 		final String email = "teste@teste.com";
 
-		final Usuario usuario = Usuario.builder().email(email).build();
+		final Usuario usuario = UsuarioBuilder.builder().email(email).build();
 
 		Mockito.doThrow(RegraNegocioException.class).when(usuarioService).validarEmail(email);
 		

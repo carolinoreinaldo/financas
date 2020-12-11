@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.financas.BaseTeste;
+import com.financas.builders.UsuarioBuilder;
 import com.financas.exceptions.RegraNegocioException;
 import com.financas.model.entity.Usuario;
 import com.financas.model.repository.UsuarioRepository;
@@ -32,7 +33,7 @@ public class UsuarioServiceTest extends BaseTeste {
 		
 		final String email = "teste@teste.com";
 		
-		Usuario usuario = Usuario.builder().nome("usuario").email(email).build();
+		Usuario usuario = UsuarioBuilder.builder().nome("usuario").email(email).build();
 		
 		this.usuarioRepository.save(usuario);
 		

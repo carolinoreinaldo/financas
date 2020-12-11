@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import com.financas.BaseTeste;
+import com.financas.builders.UsuarioBuilder;
 import com.financas.model.entity.Lancamento;
 import com.financas.model.entity.Usuario;
 import com.financas.model.enums.StatusLancamento;
@@ -98,7 +99,7 @@ public class LancamentoRepositoryTest extends BaseTeste {
 		lan.setTipo(TipoLancamento.DESPESA);
 		lan.setValor(new BigDecimal(200));
 		
-		Usuario usuario = Usuario.builder().nome("usuario").email("usuario@email.com").build();
+		Usuario usuario = UsuarioBuilder.builder().nome("usuario").email("usuario@email.com").build();
 		lan.setUsuario(usuario);
 		return lan;
 	}

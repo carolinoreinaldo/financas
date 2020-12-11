@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import com.financas.BaseTeste;
+import com.financas.builders.UsuarioBuilder;
 import com.financas.model.entity.Usuario;
 
 public class UsuarioRepositoryTest extends BaseTeste {
@@ -27,7 +28,7 @@ public class UsuarioRepositoryTest extends BaseTeste {
 	@Test
 	public void deveVerificarAExistenciaDeUmEmail() {
 
-		Usuario usuario = Usuario.builder().nome("usuario").email("usuario@email.com").build();
+		Usuario usuario = UsuarioBuilder.builder().nome("usuario").email("usuario@email.com").build();
 
 		entityManager.persist(usuario);
 
@@ -39,7 +40,7 @@ public class UsuarioRepositoryTest extends BaseTeste {
 	@Test
 	public void deveRetornarFalsoQuandoNaoHouveUsuarioCadastradoComOEmail() {
 
-		Usuario usuario = Usuario.builder().nome("usuario").email("usuario@email.com").build();
+		Usuario usuario = UsuarioBuilder.builder().nome("usuario").email("usuario@email.com").build();
 
 		entityManager.persist(usuario);
 
@@ -51,7 +52,7 @@ public class UsuarioRepositoryTest extends BaseTeste {
 	@Test
 	public void devePersistirUmUsuarioNaBaseDeDados() {
 		// cenário
-		Usuario usuario = Usuario.builder().nome("usuario").email("usuario@email.com").build();
+		Usuario usuario = UsuarioBuilder.builder().nome("usuario").email("usuario@email.com").build();
 
 		// Ação
 		Usuario usuarioSalvo = entityManager.persist(usuario);
@@ -65,7 +66,7 @@ public class UsuarioRepositoryTest extends BaseTeste {
 		
 		final String email = "usuario@gmail.com";
 		// cenário
-		Usuario usuario = Usuario.builder().nome("usuario").email(email).build();
+		Usuario usuario = UsuarioBuilder.builder().nome("usuario").email(email).build();
 
 		// Ação
 		entityManager.persist(usuario);
