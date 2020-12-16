@@ -1,5 +1,6 @@
 package com.financas.api.resource;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.financas.api.dto.AtualizaStatusDTO;
 import com.financas.api.dto.LancamentoDTO;
+import com.financas.api.dto.OptionDTO;
 import com.financas.exceptions.RegraNegocioException;
 import com.financas.model.entity.Lancamento;
 import com.financas.model.entity.Usuario;
@@ -156,6 +158,37 @@ public class LancamentoResource {
 
 		lancamento.setUsuario(usuarioEncontrado);
 		return lancamento;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@GetMapping("/tipos-lancamento")
+	public ResponseEntity obterTipos(){
+		
+		return responseOk(TipoLancamento.values());
+		
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@GetMapping("/meses")
+	public ResponseEntity obterMeses(){
+		
+		final List<OptionDTO> meses = Arrays.asList(
+			new OptionDTO("Selecione...", 0),
+			new OptionDTO("Janeiro", 1),
+			new OptionDTO("Fevereiro", 2),
+			new OptionDTO("Março", 3),
+			new OptionDTO("Abril", 4),
+			new OptionDTO("Maio", 5),
+			new OptionDTO("Junho", 6),
+			new OptionDTO("Julho", 7),
+			new OptionDTO("Agosto", 8),
+			new OptionDTO("Setembro", 9),
+			new OptionDTO("Outubro", 10),
+			new OptionDTO("Novembro", 12),
+			new OptionDTO("Dezembro", 12)
+		);
+		return responseOk(meses);
+		
 	}
 	
 	private ResponseEntity<? extends Object> badRequest(String msg) {
