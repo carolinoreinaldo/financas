@@ -17,6 +17,8 @@ import javax.persistence.Table;
 
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
+import com.financas.api.dto.LancamentoDTO;
+import com.financas.builders.LancamentoDTOBuilder;
 import com.financas.model.enums.StatusLancamento;
 import com.financas.model.enums.TipoLancamento;
 
@@ -201,6 +203,20 @@ public class Lancamento {
 		return "Lancamento [id=" + id + ", descricao=" + descricao + ", mes=" + mes + ", ano=" + ano + ", usuario="
 				+ usuario + ", valor=" + valor + ", dataCadastro=" + dataCadastro + ", tipo=" + tipo + ", status="
 				+ status + "]";
+	}
+	
+	public LancamentoDTO getLancamentoDTO() {
+		return LancamentoDTOBuilder
+				.newInstance()
+				.id(this.getId())
+				.descricao(this.getDescricao())
+				.mes(this.getMes())
+				.ano(this.getAno())
+				.status(this.status)
+				.valor(this.getValor())
+				.usuario(this.getUsuario().getId())
+				.tipo(this.getTipo())
+				.build();
 	}
 
 }

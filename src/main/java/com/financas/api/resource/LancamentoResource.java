@@ -173,7 +173,6 @@ public class LancamentoResource {
 	public ResponseEntity obterMeses(){
 		
 		final List<OptionDTO> meses = Arrays.asList(
-			new OptionDTO("Selecione...", 0),
 			new OptionDTO("Janeiro", 1),
 			new OptionDTO("Fevereiro", 2),
 			new OptionDTO("Março", 3),
@@ -188,7 +187,17 @@ public class LancamentoResource {
 			new OptionDTO("Dezembro", 12)
 		);
 		return responseOk(meses);
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@GetMapping("{lancamentoId}")
+	public ResponseEntity obterLancamento( @PathVariable("lancamentoId") Long lancamentoId) {
+		Optional<Lancamento> lancamento = this.lancamentoService.obterPorId(lancamentoId);
 		
+		return lancamento
+				.map(lan -> new ResponseEntity(lan.getLancamentoDTO(), HttpStatus.OK))
+				.orElseGet(() -> new ResponseEntity(HttpStatus.NOT_FOUND));
+			
 	}
 	
 	private ResponseEntity<? extends Object> badRequest(String msg) {
