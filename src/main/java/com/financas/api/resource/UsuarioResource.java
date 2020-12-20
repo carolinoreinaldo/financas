@@ -59,7 +59,8 @@ public class UsuarioResource {
 	public ResponseEntity<? extends Object> obterSaldo(@PathVariable("id") Long usuarioId) {
 		Optional<Usuario> usuarioEnconetrado = usuarioService.obterPorId(usuarioId);
 		if(!usuarioEnconetrado.isPresent()) {
-			return new ResponseEntity("Usuário não encontrado para o ID informado. Informe um usuário válido", HttpStatus.NOT_FOUND);
+			final String msg = "Usuário não encontrado para o ID informado. Informe um usuário válido";
+			return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
 		}
 		return ResponseEntity.ok(lancamentoService.obterSaldoPorUsuario(usuarioId));
 	}
